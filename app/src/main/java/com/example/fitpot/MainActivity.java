@@ -1,7 +1,9 @@
 package com.example.fitpot;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.fitpot.ui.shop.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +16,42 @@ import com.example.fitpot.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Accelerometer accelerometer;
+    private Gyroscope gyroscope;
     private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        accelerometer = new Accelerometer(this);
+        gyroscope = new Gyroscope(this);
+
+        accelerometer.setListener(new Accelerometer.Listener() {
+            @Override
+            public void onTranslation(float tx, float ty, float tz) {
+                if(tx > 1.0f)
+                {
+                    getWindow().getDecorView().setBackgroundColor(Color.RED);
+                }
+                else if(tx < -1.0f){
+                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+                }
+            }
+        });
+
+        gyroscope.setListener(new Gyroscope.Listener() {
+            @Override
+            public void onRotation(float rx, float ry, float rz) {
+                if(rz > 1.0f){
+                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
+                }
+                else if(rz < -1.0f)
+                {
+                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                }
+            }
+        });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -26,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
@@ -33,5 +67,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        accelerometer.register();
+        gyroscope.register();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        accelerometer.unregister();
+        gyroscope.unregister();
+    }
+
 
 }
