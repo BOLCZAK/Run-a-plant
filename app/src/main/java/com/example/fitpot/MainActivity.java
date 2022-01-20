@@ -26,8 +26,10 @@ public class MainActivity extends AppCompatActivity {
         gyroscope = new Gyroscope(this);
 
         gyroscope.setListener(new Gyroscope.Listener() {
+
             @Override
             public void onRotation(float rx, float ry, float rz) {
+                           /*
                 if(rz > 1.0f){
                     getWindow().getDecorView().setBackgroundColor(Color.GREEN);
                 }
@@ -35,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
                 {
                     getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
                 }
+                            */
             }
+
+
         });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
