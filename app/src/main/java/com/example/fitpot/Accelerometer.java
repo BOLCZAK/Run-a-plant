@@ -22,7 +22,7 @@ public class Accelerometer {
     private Sensor sensor;
     private SensorEventListener sensorEventListener;
 
-    Accelerometer(Context context){
+    public Accelerometer(Context context){
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sensorEventListener = new SensorEventListener() {

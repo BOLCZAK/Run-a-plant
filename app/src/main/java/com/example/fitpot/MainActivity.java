@@ -16,7 +16,6 @@ import com.example.fitpot.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Accelerometer accelerometer;
     private Gyroscope gyroscope;
     private ActivityMainBinding binding;
 
@@ -24,21 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
-
-        accelerometer.setListener(new Accelerometer.Listener() {
-            @Override
-            public void onTranslation(float tx, float ty, float tz) {
-                if(tx > 1.0f)
-                {
-                    getWindow().getDecorView().setBackgroundColor(Color.RED);
-                }
-                else if(tx < -1.0f){
-                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
-                }
-            }
-        });
 
         gyroscope.setListener(new Gyroscope.Listener() {
             @Override
@@ -71,15 +56,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        accelerometer.register();
         gyroscope.register();
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-
-        accelerometer.unregister();
         gyroscope.unregister();
     }
 
