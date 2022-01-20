@@ -57,10 +57,11 @@ public class ShopFragment extends Fragment {
                 double MagnitudeDelta = Magnitude - MagnitudePrevious;
                 MagnitudePrevious = Magnitude;
 
-                if (MagnitudeDelta > 4){
+                if (MagnitudeDelta > 1){
                     stepCount++;
                 }
                 textView.setText(stepCount.toString());
+                addToShared();
             }
         });
         accelerometer.register();
@@ -85,6 +86,10 @@ public class ShopFragment extends Fragment {
     public void onPause(){
         super.onPause();
 
+        addToShared();
+    }
+
+    void addToShared(){
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
@@ -96,10 +101,7 @@ public class ShopFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putInt("stepCount", stepCount);
-        editor.apply();
+        addToShared();
+
     }
 }
