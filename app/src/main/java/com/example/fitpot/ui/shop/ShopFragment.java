@@ -27,9 +27,7 @@ public class ShopFragment extends Fragment {
     private ShopViewModel shopViewModel;
     private FragmentShopBinding binding;
     private TextView textView;
-    private Accelerometer accelerometer;
-    private double MagnitudePrevious = 0;
-    private Integer stepCount = 0;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,34 +35,15 @@ public class ShopFragment extends Fragment {
                 new ViewModelProvider(this).get(ShopViewModel.class);
         binding = FragmentShopBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        accelerometer = new Accelerometer(getContext());
         //final TextView textView = binding.textShop;
         textView = binding.tvStepsTaken;
-        /*
         shopViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                int stepCount = getFromShared();
+                textView.setText(String.valueOf(stepCount));
             }
         });
-        */
-        textView.setText(String.valueOf(stepCount));
-
-        accelerometer.setListener(new Accelerometer.Listener() {
-            @Override
-            public void onTranslation(float tx, float ty, float tz) {
-                double Magnitude = Math.sqrt(tx*tx + ty*ty + tz*tz);
-                double MagnitudeDelta = Magnitude - MagnitudePrevious;
-                MagnitudePrevious = Magnitude;
-
-                if (MagnitudeDelta > 1){
-                    stepCount++;
-                }
-                textView.setText(stepCount.toString());
-                addToShared();
-            }
-        });
-        accelerometer.register();
         return root;
     }
 
@@ -77,31 +56,21 @@ public class ShopFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        stepCount = sharedPreferences.getInt("stepCount", 0);
     }
 
     @Override
     public void onPause(){
         super.onPause();
-
-        addToShared();
     }
 
-    void addToShared(){
+    int getFromShared(){
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putInt("stepCount", stepCount);
-        editor.apply();
+        return sharedPreferences.getInt("stepCount", 0);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        addToShared();
 
     }
 }

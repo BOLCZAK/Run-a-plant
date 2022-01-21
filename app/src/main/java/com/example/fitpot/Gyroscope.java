@@ -19,9 +19,9 @@ public class Gyroscope {
         listener = l;
     }
 
-    private SensorManager sensorManager;
-    private Sensor sensor;
-    private SensorEventListener sensorEventListener;
+    private final SensorManager sensorManager;
+    private final Sensor sensor;
+    private final SensorEventListener sensorEventListener;
 
     Gyroscope(Context context){
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
