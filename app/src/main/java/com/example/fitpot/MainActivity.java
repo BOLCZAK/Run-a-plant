@@ -1,5 +1,6 @@
 package com.example.fitpot;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -7,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.fitpot.ui.shop.ShopFragment;
+import com.example.fitpot.ui.map.Map;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.example.fitpot.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private Gyroscope gyroscope;
+    private Map map;
     private ActivityMainBinding binding;
     private Accelerometer accelerometer;
     private double MagnitudePrevious = 0;
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         gyroscope = new Gyroscope(this);
         accelerometer = new Accelerometer(this);
         getFromShared();
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_map)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
