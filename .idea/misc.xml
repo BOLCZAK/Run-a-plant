@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/AndroidStudioProjects/FitPot/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
         <entry key="..\:/AndroidStudioProjects/FitPot/app/src/main/res/layout/fragment_home.xml" value="0.2957427536231884" />
+        <entry key="..\:/dz/Run A Plant/app/src/main/res/drawable-v24/filledcircle.xml" value="0.1453125" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.5708333333333333" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.5708333333333333" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/drawable/ic_explore_24.xml" value="0.5708333333333333" />
@@ -22,9 +23,12 @@
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_shop.xml" value="0.4015625" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/menu/bottom_nav_menu.xml" value="0.4015625" />
         <entry key="..\:/dz/Run A Plant/app/src/main/res/drawable/circle.xml" value="0.14635416666666667" />
+        <entry key="..\:/dz/Run A Plant/app/src/main/res/drawable/circle_clip.xml" value="0.1453125" />
         <entry key="..\:/dz/Run A Plant/app/src/main/res/layout/activity_main.xml" value="0.13020833333333334" />
         <entry key="..\:/dz/Run A Plant/app/src/main/res/layout/fragment_dashboard.xml" value="0.13020833333333334" />
         <entry key="..\:/dz/Run A Plant/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/dz/Run A Plant/app/src/main/res/layout/fragment_notifications.xml" value="0.12360688956433637" />
+        <entry key="..\:/dz/Run A Plant/app/src/main/res/layout/fragment_shop.xml" value="0.4" />
         <entry key="..\:/dz/Run A Plant/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
       </map>
     </option>

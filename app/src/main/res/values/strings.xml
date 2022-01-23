@@ -19,4 +19,7 @@
     <string name="purchase_2">Plant can live a little longer</string>
     <string name="purchase_3">Running??</string>
     <string name="no_money">Not enough water drops</string>
+    <string name="key_step_count">stepCount</string>
+    <string name="home_textview_text">water drops</string>
+    <string name="key_water_tank">water_tank</string>
 </resources>
