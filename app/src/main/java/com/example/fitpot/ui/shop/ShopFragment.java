@@ -41,7 +41,7 @@ public class ShopFragment extends Fragment {
                 new ViewModelProvider(this).get(ShopViewModel.class);
         binding = FragmentShopBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        mPreferences = getActivity().getSharedPreferences(getString(R.string.shared_pref_file), MODE_PRIVATE);
+        mPreferences = getActivity().getPreferences(MODE_PRIVATE);
         //final TextView textView = binding.textShop;
         textView = binding.tvStepsTaken;
         water_max = binding.tvWaterMax;

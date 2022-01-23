@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        mPreferences = getActivity().getSharedPreferences(getString(R.string.shared_pref_file), MODE_PRIVATE);
+        mPreferences = getActivity().getPreferences(MODE_PRIVATE);
 
         textView = binding.textView;
 

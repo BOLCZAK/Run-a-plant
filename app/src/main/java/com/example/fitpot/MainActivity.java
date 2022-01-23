@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         gyroscope = new Gyroscope(this);
         accelerometer = new Accelerometer(this);
-        mPreferences = getSharedPreferences(getString(R.string.shared_pref_file), MODE_PRIVATE);
+        mPreferences = getPreferences(MODE_PRIVATE);
         getFromShared();
         //water_tank = 1000;
 
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
             water_tank += 500;
         }
         addToShared();
-        showToast(String.valueOf(water_tank));
     }
 
     public void buyPlantUpgrade(View view){
