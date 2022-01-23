@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitpot.Accelerometer;
-import com.example.fitpot.R;
 import com.example.fitpot.StepCounter;
 import com.example.fitpot.databinding.FragmentShopBinding;
 
@@ -30,7 +27,6 @@ public class ShopFragment extends Fragment {
     private ShopViewModel shopViewModel;
     private FragmentShopBinding binding;
     private TextView textView;
-    private SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -39,16 +35,6 @@ public class ShopFragment extends Fragment {
                 new ViewModelProvider(this).get(ShopViewModel.class);
         binding = FragmentShopBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                Toast.makeText(getActivity(), "f", Toast.LENGTH_SHORT);
-                if(s.equals(getString(R.string.shared_prefs_key))){
-                    int stepCount = getFromShared();
-                    textView.setText(String.valueOf(stepCount));
-                }
-            }
-        };
         //final TextView textView = binding.textShop;
         textView = binding.tvStepsTaken;
         shopViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -70,14 +56,11 @@ public class ShopFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-
-        registerSharedPrefsListener();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        unregisterSharedPrefsListener();
     }
 
     int getFromShared(){
@@ -89,15 +72,5 @@ public class ShopFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-    }
-
-    void registerSharedPrefsListener(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-    }
-
-    void unregisterSharedPrefsListener(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 }

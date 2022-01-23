@@ -25,6 +25,6 @@
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="com.example.fitpot.ui.map.Map"
+        android:name="com.example.fitpot.ui.map.MapFragment"
         android:label="@string/title_map" />
 </navigation>

@@ -1,5 +1,7 @@
 package com.example.fitpot.ui.home;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private TextView textView;
+    private SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +35,19 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textView;
+        textView = binding.textView;
+
+        sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                if(s.equals(getString(R.string.key_step_count)))
+                {
+                    String msg = String.valueOf(getFromShared()) + " " + getString(R.string.home_textview_text);
+                    textView.setText(msg);
+                }
+            }
+        };
+
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -74,4 +90,29 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        registerPrefListener(sharedPreferenceChangeListener);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        unregisterPrefListener(sharedPreferenceChangeListener);
+    }
+
+    public void registerPrefListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
+    {
+        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
+        preferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void unregisterPrefListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
+    {
+        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
+        preferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
 }
