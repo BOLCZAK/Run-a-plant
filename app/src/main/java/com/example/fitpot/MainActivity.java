@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.fitpot.ui.map.Map;
+import com.example.fitpot.ui.map.MapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +22,6 @@ import com.example.fitpot.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private Gyroscope gyroscope;
-    private Map map;
     private ActivityMainBinding binding;
     private Accelerometer accelerometer;
     private double MagnitudePrevious = 0;
