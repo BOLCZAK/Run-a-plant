@@ -98,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        editor.putInt("stepCount", stepCount);
+        editor.putInt(getString(R.string.shared_prefs_key), stepCount);
         editor.apply();
     }
 
     void getFromShared(){
         SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-        stepCount = sharedPreferences.getInt("stepCount", 0);
+        stepCount = sharedPreferences.getInt(getString(R.string.shared_prefs_key), 0);
     }
 
     public void showToast(String message){
