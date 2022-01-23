@@ -25,18 +25,18 @@ public class MainActivity extends AppCompatActivity {
     private double MagnitudePrevious = 0;
     private Integer stepCount = 0;
     private int water_tank = 1000;
+    private SharedPreferences mPreferences;
+    //private String sharedPrefFile = "com.example.android.hellosharedprefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gyroscope = new Gyroscope(this);
         accelerometer = new Accelerometer(this);
+        mPreferences = getSharedPreferences(getString(R.string.shared_pref_file), MODE_PRIVATE);
         getFromShared();
-        if(water_tank < 1000)
-        {
-            water_tank = 1000;
-            addToShared(getString(R.string.key_water_tank), water_tank);
-        }
+        //water_tank = 1000;
+
         gyroscope.setListener(new Gyroscope.Listener() {
 
             @Override
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
                 }
                             */
+
             }
 
 
@@ -61,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
                 double Magnitude = Math.sqrt(tx*tx + ty*ty + tz*tz);
                 double MagnitudeDelta = Magnitude - MagnitudePrevious;
                 MagnitudePrevious = Magnitude;
-                if (MagnitudeDelta > 1){
+                if (MagnitudeDelta > 1 && stepCount < water_tank){
                     stepCount++;
                 }
-                addToShared(getString(R.string.key_step_count), stepCount);
+                addToShared();
+
             }
         });
 
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         gyroscope.register();
+        accelerometer.register();
+
     }
 
     @Override
@@ -96,18 +100,17 @@ public class MainActivity extends AppCompatActivity {
         accelerometer.unregister();
     }
 
-    void addToShared(String s, int i){
-        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+    void addToShared(){
+        SharedPreferences.Editor editor = mPreferences.edit();
         editor.clear();
-        editor.putInt(s, i);
+        editor.putInt(getString(R.string.key_step_count), stepCount);
+        editor.putInt(getString(R.string.key_water_tank), water_tank);
         editor.apply();
     }
 
     void getFromShared(){
-        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-        stepCount = sharedPreferences.getInt(getString(R.string.key_step_count), 0);
-        water_tank = sharedPreferences.getInt(getString(R.string.key_water_tank), 0);
+        stepCount = mPreferences.getInt(getString(R.string.key_step_count), 0);
+        water_tank = mPreferences.getInt(getString(R.string.key_water_tank), 1000);
     }
 
     public void showToast(String message){
@@ -115,23 +118,28 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    public void buyFromShop(String message, int amount){
+    public boolean buyFromShop(String message, int amount){
         getFromShared();
         if(stepCount > amount){
             stepCount -= amount;
-            addToShared(getString(R.string.key_step_count), stepCount);
+            addToShared();
             showToast(message);
+            return true;
         }
         else
         {
             showToast(getString(R.string.no_money));
+            return false;
         }
     }
 
     public void buyWaterUpgrade(View view){
-        buyFromShop(getString(R.string.purchase_1), 50);
-        water_tank += 500;
-        addToShared(getString(R.string.key_water_tank), water_tank);
+        if(buyFromShop(getString(R.string.purchase_1), 50))
+        {
+            water_tank += 500;
+        }
+        addToShared();
+        showToast(String.valueOf(water_tank));
     }
 
     public void buyPlantUpgrade(View view){

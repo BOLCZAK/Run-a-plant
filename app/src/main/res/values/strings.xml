@@ -23,4 +23,5 @@
     <string name="key_step_count">stepCount</string>
     <string name="home_textview_text">water drops</string>
     <string name="key_water_tank">water_tank</string>
+    <string name="shared_pref_file">com.example.android.hellosharedprefs</string>
 </resources>

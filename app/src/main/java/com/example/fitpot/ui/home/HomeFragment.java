@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private TextView textView;
     private SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener;
+    private SharedPreferences mPreferences;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        mPreferences = getActivity().getSharedPreferences(getString(R.string.shared_pref_file), MODE_PRIVATE);
 
         textView = binding.textView;
 
@@ -59,8 +61,7 @@ public class HomeFragment extends Fragment {
     }
 
     int getFromShared(){
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("stepCount", 0);
+        return mPreferences.getInt("stepCount", 0);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -105,14 +106,12 @@ public class HomeFragment extends Fragment {
 
     public void registerPrefListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
     {
-        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
-        preferences.registerOnSharedPreferenceChangeListener(listener);
+        mPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
     public void unregisterPrefListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
     {
-        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
-        preferences.unregisterOnSharedPreferenceChangeListener(listener);
+        mPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
 }
