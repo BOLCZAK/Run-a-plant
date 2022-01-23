@@ -5,10 +5,12 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitpot.Accelerometer;
+import com.example.fitpot.R;
 import com.example.fitpot.StepCounter;
 import com.example.fitpot.databinding.FragmentShopBinding;
 
@@ -27,9 +30,10 @@ public class ShopFragment extends Fragment {
     private ShopViewModel shopViewModel;
     private FragmentShopBinding binding;
     private TextView textView;
-    private Accelerometer accelerometer;
-    private double MagnitudePrevious = 0;
-    private Integer stepCount = 0;
+    private TextView water_max;
+    private SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener;
+    ImageView img;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,34 +41,41 @@ public class ShopFragment extends Fragment {
                 new ViewModelProvider(this).get(ShopViewModel.class);
         binding = FragmentShopBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        accelerometer = new Accelerometer(getContext());
         //final TextView textView = binding.textShop;
         textView = binding.tvStepsTaken;
-        /*
+        water_max = binding.tvWaterMax;
+        img = (ImageView) binding.fillCircle;
+        ClipDrawable clipDrawable =  (ClipDrawable) img.getDrawable();
+
+        sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                if(s.equals(getString(R.string.key_step_count)))
+                {
+                    int stepCount = getFromShared(getString(R.string.key_step_count));
+                    int water_tank = getFromShared(getString(R.string.key_water_tank));
+                    textView.setText(String.valueOf(stepCount));
+                    water_max.setText(String.valueOf(water_tank));
+                    float prc = (float) stepCount / (float) water_tank;
+                    prc *= 100;
+                    prc *= 1000;
+                    clipDrawable.setLevel((int)prc);
+                }
+            }
+        };
         shopViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                int stepCount = getFromShared(getString(R.string.key_step_count));
+                int water_tank = getFromShared(getString(R.string.key_water_tank));
+                textView.setText(String.valueOf(stepCount));
+                water_max.setText(String.valueOf(water_tank));
+                float prc = (float) stepCount / (float) water_tank;
+                prc *= 100;
+                prc *= 1000;
+                clipDrawable.setLevel((int)prc);
             }
         });
-        */
-        textView.setText(String.valueOf(stepCount));
-
-        accelerometer.setListener(new Accelerometer.Listener() {
-            @Override
-            public void onTranslation(float tx, float ty, float tz) {
-                double Magnitude = Math.sqrt(tx*tx + ty*ty + tz*tz);
-                double MagnitudeDelta = Magnitude - MagnitudePrevious;
-                MagnitudePrevious = Magnitude;
-
-                if (MagnitudeDelta > 1){
-                    stepCount++;
-                }
-                textView.setText(stepCount.toString());
-                addToShared();
-            }
-        });
-        accelerometer.register();
         return root;
     }
 
@@ -77,31 +88,36 @@ public class ShopFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-
-        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        stepCount = sharedPreferences.getInt("stepCount", 0);
+        registerPrefListener(sharedPreferenceChangeListener);
     }
 
     @Override
     public void onPause(){
         super.onPause();
-
-        addToShared();
+        unregisterPrefListener(sharedPreferenceChangeListener);
     }
 
-    void addToShared(){
+    int getFromShared(String s){
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putInt("stepCount", stepCount);
-        editor.apply();
+        return sharedPreferences.getInt(s, 0);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        addToShared();
-
     }
+
+    public void registerPrefListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
+    {
+        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
+        preferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public void unregisterPrefListener(SharedPreferences.OnSharedPreferenceChangeListener listener)
+    {
+        SharedPreferences preferences = getActivity().getPreferences(MODE_PRIVATE);
+        preferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
 }

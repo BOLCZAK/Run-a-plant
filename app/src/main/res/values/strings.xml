@@ -11,5 +11,16 @@
     <string name="plant3">Plant\'s 3st stage</string>
     <string name="plant4">Plant\'s 4st stage</string>
     <string name="plant5">Plant\'s 5st stage</string>
-    <string name="water">Water Drops</string>
+    <string name="shop_item_1">Increase capacity</string>
+    <string name="shop_item_2">Smth about plant</string>
+    <string name="shop_item_3">Another button</string>
+    <string name="water_drops">Water drops</string>
+    <string name="image_shop_item_1">Accumulate more water</string>
+    <string name="purchase_1">You can accumulate more water</string>
+    <string name="purchase_2">Plant can live a little longer</string>
+    <string name="purchase_3">Running??</string>
+    <string name="no_money">Not enough water drops</string>
+    <string name="key_step_count">stepCount</string>
+    <string name="home_textview_text">water drops</string>
+    <string name="key_water_tank">water_tank</string>
 </resources>

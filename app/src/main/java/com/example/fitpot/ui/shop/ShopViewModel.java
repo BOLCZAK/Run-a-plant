@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 public class ShopViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private final MutableLiveData<String> mText;
     private SensorManager sensorManager;
     boolean running = false;
 
