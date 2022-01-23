@@ -42,10 +42,13 @@ public class HomeFragment extends Fragment {
         sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                if(s.equals(getString(R.string.key_step_count)))
+                if(s != null)
                 {
-                    String msg = String.valueOf(getFromShared()) + " " + getString(R.string.home_textview_text);
-                    textView.setText(msg);
+                    if(s.equals(getString(R.string.key_step_count)))
+                    {
+                        String msg = String.valueOf(getFromShared()) + " " + getString(R.string.home_textview_text);
+                        textView.setText(msg);
+                    }
                 }
             }
         };

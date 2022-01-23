@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mPreferences = getPreferences(MODE_PRIVATE);
         getFromShared();
         //water_tank = 1000;
-
+        addToShared();
         gyroscope.setListener(new Gyroscope.Listener() {
 
             @Override

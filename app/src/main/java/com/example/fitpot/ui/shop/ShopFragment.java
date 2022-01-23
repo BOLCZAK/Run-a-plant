@@ -51,17 +51,19 @@ public class ShopFragment extends Fragment {
         sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                if(s.equals(getString(R.string.key_step_count)))
-                {
-                    int stepCount = getFromShared(getString(R.string.key_step_count));
-                    int water_tank = getFromShared(getString(R.string.key_water_tank));
-                    textView.setText(String.valueOf(stepCount));
-                    water_max.setText(String.valueOf(water_tank));
-                    float prc = (float) stepCount / (float) water_tank;
-                    prc *= 10;
-                    prc *= 1000;
-                    clipDrawable.setLevel((int)prc);
+                if(s != null) {
+                    if (s.equals(getString(R.string.key_step_count))) {
+                        int stepCount = getFromShared(getString(R.string.key_step_count));
+                        int water_tank = getFromShared(getString(R.string.key_water_tank));
+                        textView.setText(String.valueOf(stepCount));
+                        water_max.setText(String.valueOf(water_tank));
+                        float prc = (float) stepCount / (float) water_tank;
+                        prc *= 10;
+                        prc *= 1000;
+                        clipDrawable.setLevel((int) prc);
+                    }
                 }
+
             }
         };
         shopViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
