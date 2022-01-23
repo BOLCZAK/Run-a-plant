@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Accelerometer accelerometer;
     private double MagnitudePrevious = 0;
     private Integer stepCount = 0;
+    private int water_tank = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         gyroscope = new Gyroscope(this);
         accelerometer = new Accelerometer(this);
         getFromShared();
+        if(water_tank < 1000)
+        {
+            water_tank = 1000;
+            addToShared(getString(R.string.key_water_tank), water_tank);
+        }
         gyroscope.setListener(new Gyroscope.Listener() {
 
             @Override
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 if (MagnitudeDelta > 1){
                     stepCount++;
                 }
-                addToShared();
+                addToShared(getString(R.string.key_step_count), stepCount);
             }
         });
 
@@ -93,17 +99,18 @@ public class MainActivity extends AppCompatActivity {
         accelerometer.unregister();
     }
 
-    void addToShared(){
+    void addToShared(String s, int i){
         SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        editor.putInt("stepCount", stepCount);
+        editor.putInt(s, i);
         editor.apply();
     }
 
     void getFromShared(){
         SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-        stepCount = sharedPreferences.getInt("stepCount", 0);
+        stepCount = sharedPreferences.getInt(getString(R.string.key_step_count), 0);
+        water_tank = sharedPreferences.getInt(getString(R.string.key_water_tank), 0);
     }
 
     public void showToast(String message){
@@ -115,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         getFromShared();
         if(stepCount > amount){
             stepCount -= amount;
-            addToShared();
+            addToShared(getString(R.string.key_step_count), stepCount);
             showToast(message);
         }
         else
@@ -126,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void buyWaterUpgrade(View view){
         buyFromShop(getString(R.string.purchase_1), 50);
+        water_tank += 500;
+        addToShared(getString(R.string.key_water_tank), water_tank);
     }
 
     public void buyPlantUpgrade(View view){
