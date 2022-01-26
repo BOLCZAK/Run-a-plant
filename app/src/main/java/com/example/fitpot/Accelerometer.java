@@ -17,10 +17,18 @@ public class Accelerometer {
     {
         listener = l;
     }
+    public Listener getListener()
+    {
+        return listener;
+    }
 
     private final SensorManager sensorManager;
     private final Sensor sensor;
     private final SensorEventListener sensorEventListener;
+
+    public SensorEventListener getSensorEventListener() {
+        return sensorEventListener;
+    }
 
     public Accelerometer(Context context){
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);

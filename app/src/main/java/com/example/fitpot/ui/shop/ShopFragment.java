@@ -2,9 +2,7 @@ package com.example.fitpot.ui.shop;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,9 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.fitpot.Accelerometer;
 import com.example.fitpot.R;
-import com.example.fitpot.StepCounter;
 import com.example.fitpot.databinding.FragmentShopBinding;
 
 public class ShopFragment extends Fragment {
