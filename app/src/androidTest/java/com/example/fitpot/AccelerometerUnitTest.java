@@ -18,6 +18,14 @@ public class AccelerometerUnitTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         accelerometer = new Accelerometer(appContext);
         assertNotNull(accelerometer);
+        accelerometer.setListener(new Accelerometer.Listener() {
+            @Override
+            public void onTranslation(float tx, float ty, float tz) {
+                System.out.println("testing");
+            }
+        });
+        accelerometer.register();
+        accelerometer.unregister();
     }
 
     /*

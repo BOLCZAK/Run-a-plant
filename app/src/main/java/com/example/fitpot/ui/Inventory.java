@@ -3,13 +3,22 @@ package com.example.fitpot.ui;
 import com.example.fitpot.Seed;
 import com.example.fitpot.SeedType;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class Inventory {
     private List<Seed> brownSeeds;
     private List<Seed> greenSeeds;
     private List<Seed> yellowSeeds;
     private List<Seed> redSeeds;
+
+    public Inventory(){
+        brownSeeds = new Vector<Seed>();
+        greenSeeds = new Vector<Seed>();
+        yellowSeeds = new Vector<Seed>();
+        redSeeds = new Vector<Seed>();
+    }
 
     public void AddSeed(Seed seed)
     {
