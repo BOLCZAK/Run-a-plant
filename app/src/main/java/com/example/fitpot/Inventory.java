@@ -1,9 +1,8 @@
-package com.example.fitpot.ui;
+package com.example.fitpot;
 
 import com.example.fitpot.Seed;
 import com.example.fitpot.SeedType;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,7 +21,7 @@ public class Inventory {
 
     public void AddSeed(Seed seed)
     {
-        switch (seed.GetType())
+        switch (seed.getType())
         {
             case red:
                 redSeeds.add(seed);

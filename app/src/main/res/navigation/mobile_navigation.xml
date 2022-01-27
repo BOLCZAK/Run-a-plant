@@ -6,6 +6,11 @@
     app:startDestination="@+id/navigation_home">
 
     <fragment
+        android:id="@+id/navigation_inventory"
+        android:name="com.example.fitpot.ui.inventory.InventoryFragment"
+        android:label="@string/title_inventory"
+        tools:layout="@layout/fragment_inventory" />
+    <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.fitpot.ui.home.HomeFragment"
         android:label="@string/title_home"
@@ -23,8 +28,4 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
-    <fragment
-        android:id="@+id/navigation_map"
-        android:name="com.example.fitpot.ui.map.MapFragment"
-        android:label="@string/title_map" />
 </navigation>

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import android.content.Context;
 import android.os.Looper;
 
-import com.example.fitpot.ui.Inventory;
+import com.example.fitpot.Inventory;
 
 public class InventoryTest {
     Inventory  inventory;
