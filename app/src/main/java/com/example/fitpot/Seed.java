@@ -2,7 +2,6 @@ package com.example.fitpot;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.view.Menu;
 
 public class Seed implements Parcelable {
     private SeedType seedType;
@@ -28,6 +27,25 @@ public class Seed implements Parcelable {
 
     public SeedType getType(){
         return seedType;
+    }
+
+    public int getSeedImgRes(){
+        int res = 0;
+        switch (seedType){
+            case brown:
+                res = R.drawable.seed_brown;
+                break;
+            case green:
+                res = R.drawable.seed_green;
+                break;
+            case red:
+                res = R.drawable.seed_red;
+                break;
+            case yellow:
+                res = R.drawable.seed_yellow;
+                break;
+        }
+        return res;
     }
 
     @Override

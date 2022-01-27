@@ -23,6 +23,7 @@
     <string name="key_step_count">stepCount</string>
     <string name="home_textview_text">water drops</string>
     <string name="key_water_tank">water_tank</string>
+    <string name="key_inventory">inventory</string>
     <string name="shared_pref_file">com.example.android.hellosharedprefs</string>
     <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
     <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
@@ -33,6 +34,10 @@
     <string name="greenSeed">Green Seed</string>
     <string name="redSeed">Red Seed</string>
     <string name="yellowSeed">Yellow Seed</string>
+    <string name="brownSeeds">Brown Seeds</string>
+    <string name="greenSeeds">Green Seeds</string>
+    <string name="redSeeds">Red Seeds</string>
+    <string name="yellowSeeds">Yellow Seeds</string>
     <string name="alarm_on_toast">Alarm is On</string>
     <string name="alarm_off_toast">Alarm is Off</string>
     <string name="standUpAlert">Stand Up Alert</string>
@@ -42,4 +47,5 @@
     <string name="set_time">Set time</string>
     <string name="rp_al_set_up">Regular alarm set up</string>
     <string name="rp_al_set_off">Regular Alarm set off</string>
+
 </resources>
