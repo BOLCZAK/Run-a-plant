@@ -23,5 +23,7 @@ public class SeedUnitTest {
 
         seed = new Seed(SeedType.green);
         assertEquals(SeedType.green, seed.getType());
+
+        seed.describeContents();
     }
 }

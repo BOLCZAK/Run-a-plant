@@ -25,6 +25,8 @@ public class AccelerometerUnitTest {
             }
         });
         accelerometer.register();
+        assertNotNull(accelerometer.getListener());
+        assertNotNull(accelerometer.getSensorEventListener());
         accelerometer.unregister();
     }
 
