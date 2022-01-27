@@ -3,12 +3,12 @@ package com.example.fitpot;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
 public class MapActivityTest {
 
     @Rule
-    public ActivityTestRule<MapActivity> mActivityTestRule = new ActivityTestRule<>(MapActivity.class);
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Rule
     public GrantPermissionRule mGrantPermissionRule =
@@ -52,11 +52,15 @@ public class MapActivityTest {
                         isDisplayed()));
         appCompatImageButton.perform(click());
 
-        ViewInteraction view = onView(
-                allOf(withContentDescription("Google Map"),
-                        withParent(withParent(withId(R.id.map))),
+        ViewInteraction imageView = onView(
+                allOf(withContentDescription("My Location"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.FrameLayout")),
+                                        2),
+                                0),
                         isDisplayed()));
-        view.check(matches(isDisplayed()));
+        imageView.perform(click());
 
         ViewInteraction appCompatImageButton2 = onView(
                 allOf(withContentDescription("Navigate up"),
