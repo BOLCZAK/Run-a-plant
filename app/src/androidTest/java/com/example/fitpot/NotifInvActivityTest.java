@@ -58,49 +58,49 @@ public class NotifInvActivityTest {
         bottomNavigationItemView2.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.seed1Text), withText("TextView"),
+                allOf(withId(R.id.brownSeedText), withText("TextView"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         textView.check(matches(withText("TextView")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.seed1Text2), withText("TextView"),
+                allOf(withId(R.id.greenSeedText), withText("TextView"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         textView2.check(matches(withText("TextView")));
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.seed1Text3), withText("TextView"),
+                allOf(withId(R.id.redSeedText), withText("TextView"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         textView3.check(matches(withText("TextView")));
 
         ViewInteraction textView4 = onView(
-                allOf(withId(R.id.seed1Text4), withText("TextView"),
+                allOf(withId(R.id.yellowSeedText), withText("TextView"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         textView4.check(matches(withText("TextView")));
 
         ViewInteraction imageView = onView(
-                allOf(withId(R.id.seed4), withContentDescription("seed4"),
+                allOf(withId(R.id.yellowSeedImg), withContentDescription("seed4"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         imageView.check(matches(isDisplayed()));
 
         ViewInteraction imageView2 = onView(
-                allOf(withId(R.id.seed3), withContentDescription("seed3"),
+                allOf(withId(R.id.redSeedImg), withContentDescription("seed3"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         imageView2.check(matches(isDisplayed()));
 
         ViewInteraction imageView3 = onView(
-                allOf(withId(R.id.seed2), withContentDescription("seed2"),
+                allOf(withId(R.id.greenSeedImg), withContentDescription("seed2"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         imageView3.check(matches(isDisplayed()));
 
         ViewInteraction imageView4 = onView(
-                allOf(withId(R.id.seed1), withContentDescription("seed1"),
+                allOf(withId(R.id.brownSeedImg), withContentDescription("seed1"),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class))),
                         isDisplayed()));
         imageView4.check(matches(isDisplayed()));
