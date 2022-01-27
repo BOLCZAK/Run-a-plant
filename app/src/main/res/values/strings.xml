@@ -33,5 +33,10 @@
     <string name="greenSeed">Green Seed</string>
     <string name="redSeed">Red Seed</string>
     <string name="yellowSeed">Yellow Seed</string>
-
+    <string name="alarm_on_toast">Alarm is On</string>
+    <string name="alarm_off_toast">Alarm is Off</string>
+    <string name="standUpAlert">Stand Up Alert</string>
+    <string name="walkAround">You should stand up and walk around now!</string>
+    <string name="notify_every_hour_to_stand_up_and_walk">Notify every hour to stand up and walk</string>
+    <string name="set_up_repeating_alarm">Set up repeating alarm</string>
 </resources>
