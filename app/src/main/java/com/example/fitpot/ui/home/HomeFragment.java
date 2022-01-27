@@ -2,7 +2,6 @@ package com.example.fitpot.ui.home;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -72,17 +72,25 @@ public class HomeFragment extends Fragment {
 
         final int[] stage = {0};
 
-        view.findViewById(R.id.button_next_stage).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.button_water_plant).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageView img = view.findViewById(R.id.imageView);
-                stage[0]++;
-                if (stage[0] > 4) stage[0] = 0;
-                if (stage[0] == 0) img.setImageResource(R.drawable.ic_plant_1);
-                if (stage[0] == 1) img.setImageResource(R.drawable.ic_plant_2);
-                if (stage[0] == 2) img.setImageResource(R.drawable.ic_plant_3);
-                if (stage[0] == 3) img.setImageResource(R.drawable.ic_plant_4);
-                if (stage[0] == 4) img.setImageResource(R.drawable.ic_plant_5);
+                if (getFromShared() > 500)
+                {
+                    ImageView img = view.findViewById(R.id.imageView);
+                    stage[0]++;
+                    if (stage[0] > 4) stage[0] = 0;
+                    if (stage[0] == 0) img.setImageResource(R.drawable.ic_plant_1);
+                    if (stage[0] == 1) img.setImageResource(R.drawable.ic_plant_2);
+                    if (stage[0] == 2) img.setImageResource(R.drawable.ic_plant_3);
+                    if (stage[0] == 3) img.setImageResource(R.drawable.ic_plant_4);
+                    if (stage[0] == 4) img.setImageResource(R.drawable.ic_plant_5);
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), getString(R.string.no_money), Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

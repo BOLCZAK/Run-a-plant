@@ -42,4 +42,6 @@
     <string name="set_time">Set time</string>
     <string name="rp_al_set_up">Regular alarm set up</string>
     <string name="rp_al_set_off">Regular Alarm set off</string>
+    <string name="water_the_plant">Water the plant</string>
+    <string name="price_water">500</string>
 </resources>
