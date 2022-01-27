@@ -1,13 +1,24 @@
 package com.example.fitpot;
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -15,14 +26,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
 import java.util.Arrays;
@@ -40,10 +54,15 @@ public class MapActivity extends AppCompatActivity
     private static final String LAST_LOCATION = "last_location";
     private static final String SEED = "seed";
     private static final String SEED_POSITION = "seed_position";
+    private static final String INVENTORY = "inventory";
     private boolean locationPermissionGranted;
     private boolean permissionDenied = false;
+    private Circle circle;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationCallback locationCallback;
+    private LocationRequest locationRequest;
+
     private GoogleMap map;
 
     private Location lastKnownLocation;
@@ -54,7 +73,10 @@ public class MapActivity extends AppCompatActivity
     private Seed seed;
     private SeedType seedType;
     private LatLng seedPosition = null;
-    double seedRadius = 1000;
+    private double seedRadius = 1000;
+
+    private Inventory inventory = new Inventory();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundle = getIntent().getBundleExtra("mapBundle");
@@ -68,9 +90,24 @@ public class MapActivity extends AppCompatActivity
         if(bundle.getParcelable(SEED_POSITION) != null) {
             seedPosition = bundle.getParcelable(SEED_POSITION);
         }
+        if(bundle.getParcelable(INVENTORY) != null) {
+            inventory = bundle.getParcelable(INVENTORY);
+        }
         setContentView(R.layout.fragment_map);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                createLocationRequest();
+            }
+        });
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -83,6 +120,29 @@ public class MapActivity extends AppCompatActivity
         map = googleMap;
         enableMyLocation();
         getDeviceLocation();
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                String markerTitle = marker.getTitle();
+                if(markerTitle.equals(seedType.toString()))
+                {
+                    float[] distance = new float[1];
+                    Location.distanceBetween(
+                            lastKnownLocation.getLatitude(),
+                            lastKnownLocation.getLongitude(),
+                            marker.getPosition().latitude,
+                            marker.getPosition().longitude,
+                            distance);
+                    if(distance[0]<100)
+                    {
+                        inventory.addSeed(seed);
+                        setNewSeed();
+                        marker.remove();
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -120,11 +180,38 @@ public class MapActivity extends AppCompatActivity
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
                             if (lastKnownLocation != null) {
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(lastKnownLocation.getLatitude(),
-                                                lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+
+                                locationCallback = new LocationCallback() {
+                                    @Override
+                                    public void onLocationResult(LocationResult locationResult) {
+                                        if (locationResult == null) {
+                                            return;
+                                        }
+                                        for (Location location : locationResult.getLocations()) {
+                                            lastKnownLocation = location;
+                                            LatLng position = new LatLng(lastKnownLocation.getLatitude(),
+                                                    lastKnownLocation.getLongitude());
+
+                                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                                    position, DEFAULT_ZOOM));
+                                            if(circle == null) {
+                                                circle = map.addCircle(new CircleOptions()
+                                                        .center(position)
+                                                        .radius(100)
+                                                        .strokeColor(Color.rgb(0, 0, 0))
+                                                        .strokeWidth(2));
+                                            }
+                                            else
+                                            {
+                                                circle.setCenter(position);
+                                            }
+                                        }
+                                    }
+                                };
+                                startLocationUpdates();
+                                setNewSeed();
                             }
-                            setSeed();
                         }
                     }
                 });
@@ -134,41 +221,48 @@ public class MapActivity extends AppCompatActivity
     private void setSeed(){
         if(lastKnownLocation != null && seed == null && seedPosition == null)
         {
-            double radiusInDegrees = seedRadius / 111000f;
-
-            double u = random.nextDouble();
-            double v = random.nextDouble();
-            double w = radiusInDegrees * Math.sqrt(u);
-            double t = 2 * Math.PI * v;
-            double x = w * Math.cos(t);
-            double y = w * Math.sin(t);
-
-            double new_x = x / Math.cos(Math.toRadians(lastKnownLocation.getLatitude()));
-
-            double foundLongitude = new_x + lastKnownLocation.getLongitude();
-            double foundLatitude = y + lastKnownLocation.getLatitude();
-
-            seedPosition = new LatLng(foundLatitude,
-                    foundLongitude);
-            seedType = randomSeed();
-            String seedName = seedType.toString();
-            map.addMarker(
-                    new MarkerOptions()
-                            .position(seedPosition)
-                            .title(seedName));
-            seed = new Seed(seedType);
-
-            bundle.putParcelable(SEED, seed);
-            bundle.putParcelable(LAST_LOCATION, lastKnownLocation);
-            bundle.putParcelable(SEED_POSITION, seedPosition);
+            setNewSeed();
         }
         else if(seedPosition != null && seed != null ){
             String seedName = seedType.toString();
             map.addMarker(
                 new MarkerOptions()
                         .position(seedPosition)
-                        .title(seedName));
+                        .title(seedName)
+                        .icon(BitmapDescriptorFactory.fromResource(seed.getSeedImgRes())));
         }
+    }
+    private void setNewSeed()
+    {
+        double radiusInDegrees = seedRadius / 111000f;
+
+        double u = random.nextDouble();
+        double v = random.nextDouble();
+        double w = radiusInDegrees * Math.sqrt(u);
+        double t = 2 * Math.PI * v;
+        double x = w * Math.cos(t);
+        double y = w * Math.sin(t);
+
+        double new_x = x / Math.cos(Math.toRadians(lastKnownLocation.getLatitude()));
+
+        double foundLongitude = new_x + lastKnownLocation.getLongitude();
+        double foundLatitude = y + lastKnownLocation.getLatitude();
+
+        seedPosition = new LatLng(foundLatitude,
+                foundLongitude);
+        seedType = randomSeed();
+        String seedName = seedType.toString();
+        seed = new Seed(seedType);
+
+        map.addMarker(
+                new MarkerOptions()
+                        .position(seedPosition)
+                        .title(seedName)
+                        .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),seed.getSeedImgRes()),90,50, false))));
+
+        bundle.putParcelable(SEED, seed);
+        bundle.putParcelable(LAST_LOCATION, lastKnownLocation);
+        bundle.putParcelable(SEED_POSITION, seedPosition);
     }
 
     private SeedType randomSeed()
@@ -184,8 +278,10 @@ public class MapActivity extends AppCompatActivity
             getIntent().getBundleExtra("mapBundle").putParcelable(SEED, seed);
             getIntent().getBundleExtra("mapBundle").putParcelable(LAST_LOCATION, lastKnownLocation);
             getIntent().getBundleExtra("mapBundle").putParcelable(SEED_POSITION, seedPosition);
+            getIntent().getBundleExtra("mapBundle").putParcelable(INVENTORY, inventory);
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -216,14 +312,22 @@ public class MapActivity extends AppCompatActivity
         }
     }
 
+    private void startLocationUpdates() {
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest,
+                locationCallback,
+                Looper.getMainLooper());
+    }
+
+    protected void createLocationRequest() {
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override

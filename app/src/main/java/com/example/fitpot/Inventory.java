@@ -1,12 +1,12 @@
 package com.example.fitpot;
 
-import com.example.fitpot.Seed;
-import com.example.fitpot.SeedType;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
 import java.util.Vector;
 
-public class Inventory {
+public class Inventory implements Parcelable {
     private List<Seed> brownSeeds;
     private List<Seed> greenSeeds;
     private List<Seed> yellowSeeds;
@@ -19,7 +19,26 @@ public class Inventory {
         redSeeds = new Vector<Seed>();
     }
 
-    public void AddSeed(Seed seed)
+    protected Inventory(Parcel in) {
+        brownSeeds = in.createTypedArrayList(Seed.CREATOR);
+        greenSeeds = in.createTypedArrayList(Seed.CREATOR);
+        yellowSeeds = in.createTypedArrayList(Seed.CREATOR);
+        redSeeds = in.createTypedArrayList(Seed.CREATOR);
+    }
+
+    public static final Creator<Inventory> CREATOR = new Creator<Inventory>() {
+        @Override
+        public Inventory createFromParcel(Parcel in) {
+            return new Inventory(in);
+        }
+
+        @Override
+        public Inventory[] newArray(int size) {
+            return new Inventory[size];
+        }
+    };
+
+    public void addSeed(Seed seed)
     {
         switch (seed.getType())
         {
@@ -38,7 +57,7 @@ public class Inventory {
         }
     }
 
-    public int GetSeedNumber(SeedType seedType)
+    public int getSeedNumber(SeedType seedType)
     {
         int number = 0;
         switch (seedType)
@@ -59,7 +78,7 @@ public class Inventory {
         return number;
     }
 
-    public Seed GetSeed(SeedType seedType)
+    public Seed getSeed(SeedType seedType)
     {
         Seed seed = null;
         switch (seedType)
@@ -86,5 +105,18 @@ public class Inventory {
                 break;
         }
         return seed;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeTypedList(brownSeeds);
+        parcel.writeTypedList(greenSeeds);
+        parcel.writeTypedList(yellowSeeds);
+        parcel.writeTypedList(redSeeds);
     }
 }

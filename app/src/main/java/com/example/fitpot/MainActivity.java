@@ -28,9 +28,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.fitpot.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String INVENTORY = "inventory";
     private Bundle bundle;
+    private Inventory inventory;
     private Gyroscope gyroscope;
     private ActivityMainBinding binding;
     private Accelerometer accelerometer;
@@ -47,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(bundle ==  null) {
-            bundle = new Bundle();
+        if(inventory == null) {
+            inventory = new Inventory();
         }
         gyroscope = new Gyroscope(this);
         accelerometer = new Accelerometer(this);
@@ -56,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         getFromShared();
         //water_tank = 1000;
         addToShared();
+        if(bundle ==  null) {
+            bundle = new Bundle();
+            bundle.putParcelable(INVENTORY, inventory);
+        }
         gyroscope.setListener(new Gyroscope.Listener() {
 
             @Override
@@ -148,20 +155,31 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MAP_REQ && resultCode == RESULT_OK)
-             bundle = data.getBundleExtra("mapBundle");
+        if (requestCode == MAP_REQ && resultCode == RESULT_OK) {
+            bundle = data.getBundleExtra("mapBundle");
+            inventory = bundle.getParcelable(INVENTORY);
+            addToShared();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     void addToShared(){
         SharedPreferences.Editor editor = mPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(inventory);
         editor.clear();
         editor.putInt(getString(R.string.key_step_count), stepCount);
         editor.putInt(getString(R.string.key_water_tank), water_tank);
+        editor.putString(getString(R.string.key_inventory), json);
         editor.apply();
     }
 
     void getFromShared(){
+        Gson gson = new Gson();
+        String json = mPreferences.getString(getString(R.string.key_inventory), "");
+        if(gson.fromJson(json, Inventory.class) != null) {
+            inventory = gson.fromJson(json, Inventory.class);
+        }
         stepCount = mPreferences.getInt(getString(R.string.key_step_count), 0);
         water_tank = mPreferences.getInt(getString(R.string.key_water_tank), 1000);
     }
