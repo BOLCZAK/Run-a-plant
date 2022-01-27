@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
 public class MapActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MapActivity> mActivityTestRule = new ActivityTestRule<>(MapActivity.class);
 
     @Rule
     public GrantPermissionRule mGrantPermissionRule =

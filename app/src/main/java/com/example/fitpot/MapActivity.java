@@ -80,6 +80,10 @@ public class MapActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundle = getIntent().getBundleExtra("mapBundle");
+        if(bundle == null)
+        {
+            bundle = new Bundle();
+        }
         if(bundle.getParcelable(SEED) != null) {
             seed = bundle.getParcelable(SEED);
             seedType = seed.getType();
@@ -210,7 +214,7 @@ public class MapActivity extends AppCompatActivity
                                     }
                                 };
                                 startLocationUpdates();
-                                setNewSeed();
+                                setSeed();
                             }
                         }
                     }
@@ -229,7 +233,7 @@ public class MapActivity extends AppCompatActivity
                 new MarkerOptions()
                         .position(seedPosition)
                         .title(seedName)
-                        .icon(BitmapDescriptorFactory.fromResource(seed.getSeedImgRes())));
+                        .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),seed.getSeedImgRes()),90,50, false))));
         }
     }
     private void setNewSeed()

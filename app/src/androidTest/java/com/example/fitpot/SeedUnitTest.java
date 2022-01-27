@@ -26,4 +26,20 @@ public class SeedUnitTest {
 
         seed.describeContents();
     }
+
+    @Test
+    public void SeedImgResTest(){
+        seed = new Seed(SeedType.brown);
+        assertEquals(R.drawable.seed_brown, seed.getSeedImgRes());
+
+        seed = new Seed(SeedType.yellow);
+        assertEquals(R.drawable.seed_yellow, seed.getSeedImgRes());
+
+        seed = new Seed(SeedType.red);
+        assertEquals(R.drawable.seed_red, seed.getSeedImgRes());
+
+        seed = new Seed(SeedType.green);
+        assertEquals(R.drawable.seed_green, seed.getSeedImgRes());
+
+    }
 }
