@@ -39,4 +39,7 @@
     <string name="walkAround">You should stand up and walk around now!</string>
     <string name="notify_every_hour_to_stand_up_and_walk">Notify every hour to stand up and walk</string>
     <string name="set_up_repeating_alarm">Set up repeating alarm</string>
+    <string name="set_time">Set time</string>
+    <string name="rp_al_set_up">Regular alarm set up</string>
+    <string name="rp_al_set_off">Regular Alarm set off</string>
 </resources>
