@@ -5,33 +5,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 
 import com.example.fitpot.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.fitpot.databinding.FragmentMapBinding;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback{
+public class MapFragment extends SupportMapFragment implements OnMapReadyCallback
+{
     private MapView mapView;
+    private GoogleMap map;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
-        mapView = (MapView) v.findViewById(R.id.mapView);
+        mapView = (MapView) v.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
         mapView.onResume();// needed to get the map to display immediately
 
         try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
+            MapsInitializer.initialize(requireActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,11 +41,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .title("Marker"));
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
     }
+
 
     @Override
     public void onResume() {

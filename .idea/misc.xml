@@ -16,10 +16,14 @@
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/drawable/ic_plant_2.xml" value="0.41770833333333335" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/drawable/ic_plant_3.xml" value="0.41770833333333335" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/drawable/ic_plant_5.xml" value="0.41770833333333335" />
-        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/activity_main.xml" value="0.4351015801354402" />
+        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/activity_google_sign_in.xml" value="0.5546875" />
+        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/activity_main.xml" value="0.4098573281452659" />
+        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/activity_map.xml" value="0.33177083333333335" />
+        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/activity_profile.xml" value="0.4015625" />
+        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/activity_sign_in.xml" value="0.33177083333333335" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_home.xml" value="0.4015625" />
-        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_inventory.xml" value="0.5546875" />
-        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_map.xml" value="0.5357142857142857" />
+        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_inventory.xml" value="0.264" />
+        <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_map.xml" value="0.42412451361867703" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_notifications.xml" value="0.4015625" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/layout/fragment_shop.xml" value="0.4015625" />
         <entry key="..\:/BoD/Run-a-plant/app/src/main/res/menu/bottom_nav_menu.xml" value="0.4015625" />

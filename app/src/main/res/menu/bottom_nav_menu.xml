@@ -16,10 +16,6 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_notifications" />
     <item
-        android:id="@+id/navigation_map"
-        android:icon="@drawable/ic_explore_24"
-        android:title="@string/title_map" />
-    <item
         android:id="@+id/navigation_inventory"
         android:icon="@drawable/ic_backpack_24"
         android:title="@string/title_inventory" />

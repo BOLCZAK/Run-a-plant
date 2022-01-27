@@ -13,15 +13,15 @@ public class SeedUnitTest {
     public void SeedTypeTest()
     {
         seed = new Seed(SeedType.brown);
-        assertEquals(SeedType.brown, seed.GetType());
+        assertEquals(SeedType.brown, seed.getType());
 
         seed = new Seed(SeedType.yellow);
-        assertEquals(SeedType.yellow, seed.GetType());
+        assertEquals(SeedType.yellow, seed.getType());
 
         seed = new Seed(SeedType.red);
-        assertEquals(SeedType.red, seed.GetType());
+        assertEquals(SeedType.red, seed.getType());
 
         seed = new Seed(SeedType.green);
-        assertEquals(SeedType.green, seed.GetType());
+        assertEquals(SeedType.green, seed.getType());
     }
 }
