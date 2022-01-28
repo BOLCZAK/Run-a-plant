@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.fitpot.MainActivity;
 import com.example.fitpot.R;
 import com.example.fitpot.databinding.FragmentHomeBinding;
+import com.google.gson.Gson;
 
 public class HomeFragment extends Fragment {
 
@@ -75,8 +77,11 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.button_water_plant).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getFromShared() > 500)
+                int steps = getFromShared();
+                MainActivity mainActivity = (MainActivity) getActivity();
+                if ( steps >= 500)
                 {
+                    mainActivity.setSteps(steps - 500);
                     ImageView img = view.findViewById(R.id.imageView);
                     stage[0]++;
                     if (stage[0] > 4) stage[0] = 0;

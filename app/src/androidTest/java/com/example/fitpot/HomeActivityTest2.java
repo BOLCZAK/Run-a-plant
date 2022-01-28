@@ -34,6 +34,7 @@ public class HomeActivityTest2 {
 
     @Test
     public void homeActivityTest2() {
+        mActivityTestRule.getActivity().setSteps(2500);
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.navigation_home), withContentDescription("Home"),
                         childAtPosition(
@@ -73,6 +74,36 @@ public class HomeActivityTest2 {
                                 3),
                         isDisplayed()));
         materialButton3.perform(click());
+
+        ViewInteraction materialButton4 = onView(
+                allOf(withId(R.id.button_water_plant), withText("Water the plant"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment_activity_main),
+                                        0),
+                                3),
+                        isDisplayed()));
+        materialButton4.perform(click());
+
+        ViewInteraction materialButton5 = onView(
+                allOf(withId(R.id.button_water_plant), withText("Water the plant"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment_activity_main),
+                                        0),
+                                3),
+                        isDisplayed()));
+        materialButton5.perform(click());
+
+        ViewInteraction materialButton6 = onView(
+                allOf(withId(R.id.button_water_plant), withText("Water the plant"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment_activity_main),
+                                        0),
+                                3),
+                        isDisplayed()));
+        materialButton6.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

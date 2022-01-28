@@ -298,6 +298,7 @@ public class MapActivity extends AppCompatActivity
             // Enable the my location layer if the permission has been granted.
             enableMyLocation();
             locationPermissionGranted = true;
+            getDeviceLocation();
         } else {
             // Permission was denied. Display an error message
             // Display the missing permission error dialog when the fragments resume.

@@ -12,8 +12,8 @@
     <string name="plant4">Plant\'s 4st stage</string>
     <string name="plant5">Plant\'s 5st stage</string>
     <string name="shop_item_1">Increase capacity</string>
-    <string name="shop_item_2">Smth about plant</string>
-    <string name="shop_item_3">Another button</string>
+    <string name="shop_item_2">Buy new plant</string>
+    <string name="shop_item_3">Water drops multiplier</string>
     <string name="water_drops">Water drops</string>
     <string name="image_shop_item_1">Accumulate more water</string>
     <string name="purchase_1">You can accumulate more water</string>
